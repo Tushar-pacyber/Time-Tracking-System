@@ -1,0 +1,46 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectItem } from "@/components/ui/select";
+
+export default function TimeTrackingSystem() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [workType, setWorkType] = useState("");
+  const [nonProdReason, setNonProdReason] = useState("");
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen p-4">
+      <Card className="w-full max-w-md p-4">
+        <CardContent className="flex flex-col gap-4">
+          {!isLoggedIn ? (
+            <>
+              <h2 className="text-xl font-semibold">Login</h2>
+              <Input placeholder="Enter Employee ID" />
+              <Button onClick={() => setIsLoggedIn(true)}>Login</Button>
+            </>
+          ) : (
+            <>
+              <h2 className="text-xl font-semibold">Work Tracker</h2>
+              <Select onValueChange={setWorkType} placeholder="Select Work Type">
+                <SelectItem value="production">Production</SelectItem>
+                <SelectItem value="non-production">Non-Production</SelectItem>
+              </Select>
+              {workType === "non-production" && (
+                <Select onValueChange={setNonProdReason} placeholder="Select Reason">
+                  <SelectItem value="meeting">Meeting</SelectItem>
+                  <SelectItem value="training">Training</SelectItem>
+                  <SelectItem value="break">Break</SelectItem>
+                </Select>
+              )}
+              <Button className="mt-4">Start Work</Button>
+              <Button variant="destructive" onClick={() => setIsLoggedIn(false)}>
+                Logout
+              </Button>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
